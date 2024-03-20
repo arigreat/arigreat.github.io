@@ -95,39 +95,40 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p><em>本节笔记主要记录js函数陌生知识点用于提醒</em></p>
-<h2 id="函数构造"><a href="#函数构造" class="headerlink" title="函数构造"></a>函数构造</h2><h3 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h3><p>JS函数可以通过一个表达式定义，表达式可以存储在变量中，变量也可作为函数使用：</p>
+        <p>本节笔记记录JavaScript函数的陌生知识点，包括函数构造，函数参数，函数调用，闭包。</p>
+<hr>
+<h1 id="函数构造"><a href="#函数构造" class="headerlink" title="函数构造"></a>函数构造</h1><h2 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h2><p>JS函数可以通过一个表达式定义，表达式可以存储在变量中，变量也可作为函数使用：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="keyword">function</span> (<span class="params">a, b</span>) &#123;<span class="keyword">return</span> a * b&#125;;</span><br><span class="line"><span class="keyword">var</span> z = <span class="title function_">x</span>(<span class="number">4</span>,<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
 
 <p>这样的函数实际上是个<strong>匿名函数</strong>（没有名称）。函数存储在变量中，通过变量名调用。</p>
 <hr>
-<h3 id="Function-构造函数"><a href="#Function-构造函数" class="headerlink" title="Function()构造函数"></a>Function()构造函数</h3><p>函数通过<strong>function</strong>定义，也可用js函数构造器**(function())**定义：</p>
+<h2 id="Function-构造函数"><a href="#Function-构造函数" class="headerlink" title="Function()构造函数"></a>Function()构造函数</h2><p>函数通过<strong>function</strong>定义，也可用js函数构造器**(function())**定义：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">//原写法</span></span><br><span class="line"><span class="keyword">var</span> myFunction = <span class="keyword">function</span> (<span class="params">a, b</span>) &#123;<span class="keyword">return</span> a * b&#125;;</span><br><span class="line">   <span class="keyword">var</span> x = <span class="title function_">myFunction</span>(<span class="number">4</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">//构造函数</span></span><br><span class="line"><span class="keyword">var</span> myFunction = <span class="keyword">new</span> <span class="title class_">Function</span>(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;return a * b&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> x = <span class="title function_">myFunction</span>(<span class="number">4</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
 
 <p>但在js中应当尽量避免使用<code>new</code></p>
 <hr>
-<h3 id="自调用函数"><a href="#自调用函数" class="headerlink" title="自调用函数"></a>自调用函数</h3><p>函数表达式可以通过紧跟()，实现自动调用。不能自调用一个声明的函数，通过添加括号包裹函数来说明它是一个函数表达式：</p>
+<h2 id="自调用函数"><a href="#自调用函数" class="headerlink" title="自调用函数"></a>自调用函数</h2><p>函数表达式可以通过紧跟()，实现自动调用。不能自调用一个声明的函数，通过添加括号包裹函数来说明它是一个函数表达式：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> x = <span class="string">&quot;Hello!!&quot;</span>;</span><br><span class="line">&#125;)();<span class="comment">//一个匿名的自调用函数</span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="函数是一个对象"><a href="#函数是一个对象" class="headerlink" title="函数是一个对象"></a>函数是一个对象</h3><p>js函数被描述为一个对象更加准确，有<strong>属性</strong>和<strong>方法</strong>。</p>
-<h4 id="属性举例"><a href="#属性举例" class="headerlink" title="属性举例"></a>属性举例</h4><p><code>name</code>：函数的名称属性，表示函数名称</p>
+<h2 id="函数是一个对象"><a href="#函数是一个对象" class="headerlink" title="函数是一个对象"></a>函数是一个对象</h2><p>js函数被描述为一个对象更加准确，有<strong>属性</strong>和<strong>方法</strong>。</p>
+<h3 id="属性举例"><a href="#属性举例" class="headerlink" title="属性举例"></a>属性举例</h3><p><code>name</code>：函数的名称属性，表示函数名称</p>
 <p><code>length</code>：函数的长度属性，表示函数接收的参数个数</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">exampleFunc</span>(<span class="params">param1, param2</span>) &#123;</span><br><span class="line">    <span class="comment">// 函数体</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(exampleFunc.<span class="property">name</span>); <span class="comment">// 输出：exampleFunc</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(exampleFunc.<span class="property">length</span>); <span class="comment">// 输出：2</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="方法举例"><a href="#方法举例" class="headerlink" title="方法举例"></a>方法举例</h4><p><code>toString()</code>：将函数作为一个字符串返回。</p>
+<h3 id="方法举例"><a href="#方法举例" class="headerlink" title="方法举例"></a>方法举例</h3><p><code>toString()</code>：将函数作为一个字符串返回。</p>
 <p><code>call()</code>: 调用一个函数，可以设置函数内部的 <code>this</code> 指向，并传入参数列表。</p>
 <p><code>apply()</code>: 与 <code>call()</code> 类似，但参数以数组形式传入。</p>
 <p><code>bind()</code>: 创建一个新函数，将原函数的 <code>this</code> 绑定到指定对象，并可预先传入部分参数。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">myFunction</span>(<span class="params">a, b</span>) &#123;    <span class="keyword">return</span> a * b;&#125;</span><br><span class="line"><span class="keyword">var</span> txt = myFunction.<span class="title function_">toString</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params">name</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello, <span class="subst">$&#123;name&#125;</span>!`</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用 call 方法</span></span><br><span class="line">greet.<span class="title function_">call</span>(<span class="literal">null</span>, <span class="string">&#x27;Alice&#x27;</span>); <span class="comment">// 输出：Hello, Alice!</span></span><br><span class="line"><span class="comment">// 使用 apply 方法</span></span><br><span class="line">greet.<span class="title function_">apply</span>(<span class="literal">null</span>, [<span class="string">&#x27;Bob&#x27;</span>]); <span class="comment">// 输出：Hello, Bob!</span></span><br><span class="line"><span class="comment">// 使用 bind 方法</span></span><br><span class="line"><span class="keyword">const</span> boundGreet = greet.<span class="title function_">bind</span>(<span class="literal">null</span>, <span class="string">&#x27;Charlie&#x27;</span>);</span><br><span class="line"><span class="title function_">boundGreet</span>(); <span class="comment">// 输出：Hello, Charlie!</span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h3 id="函数提升（Hoisting）"><a href="#函数提升（Hoisting）" class="headerlink" title="函数提升（Hoisting）"></a>函数提升（Hoisting）</h3><p>提升（Hoisting）是 JavaScript 默认将当前作用域提升到前面去的行为。提升（Hoisting）是 JavaScript 默认将当前作用域提升到前面去的行为。因此，函数可以在声明之前调用：</p>
+<h2 id="函数提升（Hoisting）"><a href="#函数提升（Hoisting）" class="headerlink" title="函数提升（Hoisting）"></a>函数提升（Hoisting）</h2><p>提升（Hoisting）是 JavaScript 默认将当前作用域提升到前面去的行为。提升（Hoisting）是 JavaScript 默认将当前作用域提升到前面去的行为。因此，函数可以在声明之前调用：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">myFunction</span>(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">myFunction</span>(<span class="params">y</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> y * y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>使用表达式定义函数时无法提升。</p>
 <hr>
-<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><p>箭头函数可替代传统函数定义方法，比普通函数表达式更简洁：</p>
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><p>箭头函数可替代传统函数定义方法，比普通函数表达式更简洁：</p>
 <blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(参数1, 参数2, …, 参数N) =&gt; &#123; 函数声明 &#125;</span><br><span class="line"></span><br><span class="line">(参数1, 参数2, …, 参数N) =&gt; 表达式(单一)</span><br><span class="line">// 相当于：(参数1, 参数2, …, 参数N) =&gt;&#123; return 表达式; &#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
@@ -143,11 +144,58 @@
 <p>箭头函数不能提升，使用前先定义；</p>
 <p>函数表达式始终是一个常量，因此使用<strong>const</strong>更安全。</p>
 <hr>
+<hr>
+<h1 id="函数参数"><a href="#函数参数" class="headerlink" title="函数参数"></a>函数参数</h1><h2 id="显式参数-Parameters-与隐式参数-Arguments"><a href="#显式参数-Parameters-与隐式参数-Arguments" class="headerlink" title="显式参数(Parameters)与隐式参数(Arguments)"></a>显式参数(Parameters)与隐式参数(Arguments)</h2><p>函数显式参数在函数定义时列出(形参)。</p>
+<p>函数隐式参数在函数调用时传递给函数真正的值(实参)。</p>
+<hr>
+<h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><p>函数在调用时未提供隐式函数，参数会被默认设置为<strong>undefined</strong>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">myFunction</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (y === <span class="literal">undefined</span>) &#123;</span><br><span class="line">          y = <span class="number">0</span>;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;<span class="comment">//默认为undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者写为</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">myFunction</span>(<span class="params">x, y</span>) &#123;</span><br><span class="line">    y = y || <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以为参数设置默认值：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">myFunction</span>(<span class="params">x, y = <span class="number">10</span></span>) &#123;</span><br><span class="line">    <span class="comment">// y is 10 if not passed or undefined</span></span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="title function_">myFunction</span>(<span class="number">0</span>, <span class="number">2</span>) <span class="comment">// 输出 2</span></span><br><span class="line"><span class="title function_">myFunction</span>(<span class="number">5</span>); <span class="comment">// 输出 15, y 参数的默认值</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="arguments-对象"><a href="#arguments-对象" class="headerlink" title="arguments 对象"></a>arguments 对象</h2><p>js函数中有一个内置的对象arguments对象，是一个由函数参数构成的参数数组，可以通过此数组进行各种操作：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查找最大值</span></span><br><span class="line">x = <span class="title function_">findMax</span>(<span class="number">1</span>, <span class="number">123</span>, <span class="number">500</span>, <span class="number">115</span>, <span class="number">44</span>, <span class="number">88</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">findMax</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> i, max = <span class="variable language_">arguments</span>[<span class="number">0</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(<span class="variable language_">arguments</span>.<span class="property">length</span> &lt; <span class="number">2</span>) <span class="keyword">return</span> max;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="variable language_">arguments</span>.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">arguments</span>[i] &gt; max) &#123;</span><br><span class="line">            max = <span class="variable language_">arguments</span>[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//统计数值的和</span></span><br><span class="line">y = <span class="title function_">sumAll</span>(<span class="number">1</span>, <span class="number">123</span>, <span class="number">500</span>, <span class="number">115</span>, <span class="number">44</span>, <span class="number">88</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sumAll</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> i, sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="variable language_">arguments</span>.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        sum += <span class="variable language_">arguments</span>[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>延申</strong>：js没有函数重载的功能，但可通过对arguments的元素和数组长度等方式模拟重载</p>
+<hr>
+<h2 id="传参方式"><a href="#传参方式" class="headerlink" title="传参方式"></a>传参方式</h2><h3 id="通过值传递"><a href="#通过值传递" class="headerlink" title="通过值传递"></a>通过值传递</h3><p>在函数中调用的参数是函数的隐式参数。</p>
+<p>JavaScript 隐式参数通过值来传递：<em><strong>函数仅仅只是获取值</strong></em>。</p>
+<p>如果函数修改参数的值，不会修改显式参数的初始值（在函数外定义），隐式参数的改变在函数外是不可见的。</p>
+<h3 id="通过对象传递"><a href="#通过对象传递" class="headerlink" title="通过对象传递"></a>通过对象传递</h3><p>在JavaScript中，可以引用对象的值。</p>
+<p><em><strong>因此我们在函数内部修改对象的属性就会修改其初始的值</strong></em>。</p>
+<p>修改对象属性可作用于函数外部（全局变量）。修改对象属性在函数外是可见的。</p>
+<hr>
+<hr>
+<h1 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h1><p>此部分内容围绕函数的<code>this</code>的初始化展开，详情参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/js/js-function-invocation.html">JavaScript 函数调用 | 菜鸟教程 (runoob.com)</a></p>
+<hr>
+<hr>
+<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><p><a target="_blank" rel="noopener" href="https://www.runoob.com/js/js-function-closures.html">JavaScript 闭包 | 菜鸟教程 (runoob.com)</a></p>
+<h2 id="函数生命周期"><a href="#函数生命周期" class="headerlink" title="函数生命周期"></a>函数生命周期</h2><p>普通函数在执行完毕后会将结果返回给调用者，函数内部的局部变量和参数等在函数执行结束后会被销毁，<strong>除非有其他引用指向它们</strong>;</p>
+<p>当函数执行完成后，函数内部的局部变量会被垃圾回收机制回收，无法再被访问。</p>
+<h2 id="变量生命周期"><a href="#变量生命周期" class="headerlink" title="变量生命周期"></a>变量生命周期</h2><p>全局变量的作用是全局性的；</p>
+<p>而在函数内部声明的变量是局部性的，只在函数内部起作用。</p>
+<h2 id="闭包：形成函数私有的作用域"><a href="#闭包：形成函数私有的作用域" class="headerlink" title="闭包：形成函数私有的作用域"></a>闭包：形成函数私有的作用域</h2><p>闭包是一种保护私有变量的机制，在函数执行时形成私有的作用域，保护里面的私有变量不受外界干扰。直观的说就是形成一个不销毁的栈环境。</p>
+<p>通过在函数内部设置内嵌函数，在内嵌函数中引用函数的变量，<strong>因为变量被引用着所以不会被回收</strong>，于此同时函数的其他未引用部分会被回收。</p>
+<h4 id="计数器闭包实例："><a href="#计数器闭包实例：" class="headerlink" title="计数器闭包实例："></a>计数器闭包实例：</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = (<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> counter = <span class="number">0</span>;<span class="comment">//只会初始化进行一次</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;<span class="keyword">return</span> counter += <span class="number">1</span>;&#125;<span class="comment">//内嵌函数实现闭包</span></span><br><span class="line">&#125;)();</span><br><span class="line"> </span><br><span class="line"><span class="title function_">add</span>();</span><br><span class="line"><span class="title function_">add</span>();</span><br><span class="line"><span class="title function_">add</span>();</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 计数器为 3</span></span><br></pre></td></tr></table></figure>
+
+<p>也可写为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">function</span> <span class="title function_">x</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;<span class="keyword">return</span> counter += <span class="number">1</span>;&#125;</span><br><span class="line">&#125;;</span><br><span class="line">	<span class="keyword">var</span> add = <span class="title function_">x</span>();<span class="comment">//接收内嵌函数</span></span><br><span class="line">	<span class="title function_">add</span>();</span><br><span class="line">	<span class="title function_">add</span>();</span><br><span class="line">	<span class="title function_">add</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+<p>错误写法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;<span class="keyword">return</span> counter += <span class="number">1</span>;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//此时add得到的返回值是内部的匿名函数，而非匿名函数的返回值</span></span><br><span class="line"><span class="comment">//需要另一个变量接收add()的返回值</span></span><br><span class="line"><span class="title function_">add</span>();</span><br><span class="line"><span class="title function_">add</span>();</span><br><span class="line"><span class="title function_">add</span>();</span><br><span class="line"><span class="comment">//只会得到function () &#123;return counter += 1;&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://arigreat.github.io/2024/03/19/JS%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0/" data-id="cltym1lid0000l8tpc1o2ag42" data-title="JS笔记--函数" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://arigreat.github.io/2024/03/19/JS%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0/" data-id="cltzlufgk0000sgtp3u704f0q" data-title="JS笔记--函数" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -190,7 +238,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://arigreat.github.io/2024/03/17/grey/" data-id="cltym1lio0005l8tp2iib0cnk" data-title="Grey :The Background-color of Heart" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://arigreat.github.io/2024/03/17/grey/" data-id="cltzlufgq0001sgtpewmyackr" data-title="Grey :The Background-color of Heart" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -231,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://arigreat.github.io/2024/03/16/love/" data-id="cltym1lip0006l8tpd5ia7d0d" data-title="love" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://arigreat.github.io/2024/03/16/love/" data-id="cltzlufgu0003sgtpdh1850mf" data-title="love" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
