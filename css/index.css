@@ -3794,7 +3794,7 @@ h1.page-title + .tag-cloud-list {
   -o-transition: opacity 1s, z-index 10ms 1s;
   -ms-transition: opacity 1s, z-index 10ms 1s;
   transition: opacity 1s, z-index 10ms 1s;
-  z-index: -1000;
+  z-index: -10000;
 }
 #loading-box.loaded .gear-loader {
   -webkit-transition: opacity 1s, z-index 10ms 1s;
@@ -3813,13 +3813,13 @@ h1.page-title + .tag-cloud-list {
   width: 400px;
 }
 #loading-box .gear-loader_overlay {
-  width: 150px;
-  height: 150px;
+  width: 190px;
+  height: 190px;
   background: transparent;
   -webkit-box-shadow: 0px 0px 0px 1000px rgba(255,255,255,0.67), 0px 0px 19px 0px rgba(0,0,0,0.16) inset;
   box-shadow: 0px 0px 0px 1000px rgba(255,255,255,0.67), 0px 0px 19px 0px rgba(0,0,0,0.16) inset;
   border-radius: 100%;
-  z-index: -1;
+  z-index: -10;
   position: absolute;
   left: 0;
   right: 0;
@@ -3828,7 +3828,7 @@ h1.page-title + .tag-cloud-list {
   margin: auto;
 }
 #loading-box .gear-loader_cogs {
-  z-index: -2;
+  z-index: -7;
   width: 100px;
   height: 100px;
   top: -120px !important;
@@ -3840,6 +3840,7 @@ h1.page-title + .tag-cloud-list {
   margin: auto;
 }
 #loading-box .gear-loader_cogs__top {
+  z-index: -5;
   position: relative;
   width: 100px;
   height: 100px;
@@ -3897,6 +3898,7 @@ h1.page-title + .tag-cloud-list {
   margin: auto;
 }
 #loading-box .gear-loader_cogs__left {
+  z-index: -8;
   position: relative;
   width: 80px;
   -webkit-transform: rotate(16deg);
@@ -3960,6 +3962,7 @@ h1.page-title + .tag-cloud-list {
   margin: auto;
 }
 #loading-box .gear-loader_cogs__bottom {
+  z-index: 1;
   position: relative;
   width: 60px;
   top: -65px;
