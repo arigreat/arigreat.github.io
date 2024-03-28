@@ -3813,9 +3813,9 @@ h1.page-title + .tag-cloud-list {
   width: 400px;
 }
 #loading-box .gear-loader_overlay {
-  width: 190px;
-  height: 190px;
-  background: transparent;
+  width: 195px;
+  height: 195px;
+  background: #fff;
   -webkit-box-shadow: 0px 0px 0px 1000px rgba(255,255,255,0.67), 0px 0px 19px 0px rgba(0,0,0,0.16) inset;
   box-shadow: 0px 0px 0px 1000px rgba(255,255,255,0.67), 0px 0px 19px 0px rgba(0,0,0,0.16) inset;
   border-radius: 100%;
