@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>世界TheWorld官网</title>
+        <style>
+            body {
+                width: 100vw;
+                background-color: rgb(255, 255, 255);
+            }
+            /*元素选择器*/
+            .FristOfweb{
+                text-align: center;                
+            }
+            .kobe_pic{
+                display: block;
+                margin: auto;
+            }
+            .float_Word{
+                float:left;
+            }
+            .good_saying{
+                text-align: left;
+            }
+            
+            h1{
+                background-color: transparent;
+            }
+
+            h2{
+                color: blue;
+                border: 5px solid pink;
+            }
+            /*类选择器*/
+            .h2_title{
+                background-color: aquamarine;
+
+            }
+            /*id选择器*/
+            #kaiTi{
+                font-family: "kaiTi";
+            }
+            /*子元素选择器*/
+            .FristOfweb{
+                margin: 2px;
+            }
+            /*伪类选择器*/
+            #question:hover{
+                background-color: brown;
+            }
+            .dz{
+                color: blue;
+                width: 75px;
+                height: 100px;
+                position: fixed;
+                right: 100px;
+                top: 300px;
+                transition: opacity 90ms ease-in-out;
+            }
+            .dz:hover{
+                color: #e91e1e;
+                opacity: 0;
+            }
+            .button{
+                position: relative;
+                right: 400px;
+            }
+            .goblin{
+                color: rgb(39, 150, 113);
+            }
+            .name_list{
+                line-height: 1.5;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="FristOfweb" style="background-color: aqua" style="height: 1280;">
+            <center><h1>世界TheWorld</h1></center>
+            <p class="kobe_pic">向传奇牢大Kobe Bryant致敬</p><img src="image/kobe.jpg" alt="我们的神" width="240" height="" class="kobe_pic">
+            <center><p><small>敬礼24秒</small></p></center>
+            <center><p >世界是<strong>依托答辩</strong>你懂吗？</p></center>
+            <center><p >前端后端机器学习学了吗？<br>你怎么敢嘻嘻哈哈？</p></center>
+        </div>
+
+        <h2 class="h2_title">批判世界</h2>
+        <p>尼采是唯一的上帝，<b>学会批判！</b></p>
+        
+        <div class="good_saying">
+        <P>先知文选</P>
+        <p>大烟杆嘴里塞 我只抽第五代 <br>不用打火真痛快<br><strong>BYD</strong> 快尝尝 我现在<strong>肺痒痒</strong><small><i>——理塘王</i></small></p>
+        <p>听，这是上帝<strong><i> 名刀 </i></strong>破碎的声音</p><hr>
+        </div>
+
+        <h2 class="h2_title">超越世界</h2>
+        <p id="question">作为<span class="goblin"><strong>科技哥布林</strong></span>，我们可以干什么呢？</p>
+        <ul class="name_list">
+            <li>读拉康，读齐泽克，读弗洛伊德</li>
+            <li>看科比，看梅西</li>
+            <li>学孙笑川，学梦泪，学波尔布特</li>
+            <li>看塔菲，看墨茶，看陈睿</li>
+        </ul>
+        <!-- <del>开家<i>老兵卤馆</i>，天天<i>老兵探花</i></del> -->
+        <b style="color: yellowgreen;">功成名就，告老还乡，尽享码农35岁退休人生</b>
+        <a target="_blank" href="http://lvmaojun.com/huaji">点击此处查看你的人格</a>
+        <p>好了，现在我知道谁的网页做的最好了</p>
+
+        <div class="dz">
+            <p class="click_text">公益广告<small>(点此删除)</small></p>
+            <img src="image/dz.gif" alt="帅气丁真抽烟" width="180" height="200">
+            <img src="image/wy.png" alt="帅气芙蓉王" width="180" height="200">
+            <script>
+                let time_over=false;
+                let click_check = document.getElementsByClassName("click_text")[0];
+                click_check.addEventListener("mouseover",click_intime_1);
+                click_check.addEventListener("click",click_intime_2);
+                function click_intime_1()
+                {
+                    time_over=true;
+                    setTimeout(function(){time_over=false;},120)
+                }
+                function click_intime_2()
+                {
+                    if(time_over){alert("byd小手挺快");console.log("666");let x = document.getElementsByClassName("dz");for(let i=0;i<x.length;i++){x[i].innerHTML='<p></p>'};}
+                    event.preventDefault();
+                } 
+                
+            </script>
+        </div>
+    </body>
+    
+</html>
