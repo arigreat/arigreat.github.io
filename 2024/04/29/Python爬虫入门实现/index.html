@@ -1,0 +1,316 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Python爬虫的简单实现 | Luvmand</title><meta name="author" content="Ari"><meta name="copyright" content="Ari"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="基础前置爬虫（spider），是指向网站&#x2F;网络发起请求，获取、分析并提取有用信息的程序。 爬虫架构Python 爬虫架构主要由五个部分组成，分别是调度器、URL管理器、网页下载器、网页解析器、应用程序。  调度器：调度url下载器，网页下载器，网页解析器之间的公作。 url管理器：url队列管理，设置爬取顺序权重，防止重复爬取和循环爬取，将需要使用的url传递给网页下载器。 网页下载器：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python爬虫的简单实现">
+<meta property="og:url" content="https://arigreat.github.io/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Luvmand">
+<meta property="og:description" content="基础前置爬虫（spider），是指向网站&#x2F;网络发起请求，获取、分析并提取有用信息的程序。 爬虫架构Python 爬虫架构主要由五个部分组成，分别是调度器、URL管理器、网页下载器、网页解析器、应用程序。  调度器：调度url下载器，网页下载器，网页解析器之间的公作。 url管理器：url队列管理，设置爬取顺序权重，防止重复爬取和循环爬取，将需要使用的url传递给网页下载器。 网页下载器：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://arigreat.github.io/img/default_cover/miku1.png?4653">
+<meta property="article:published_time" content="2024-04-29T15:52:26.000Z">
+<meta property="article:modified_time" content="2024-05-01T18:42:29.236Z">
+<meta property="article:author" content="Ari">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://arigreat.github.io/img/default_cover/miku1.png?4653"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://arigreat.github.io/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Python爬虫的简单实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-02 02:42:29'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script><script src="https://cdn.jsdelivr.net/combine/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js,npm/pixi.js@6.5.2/dist/browser/pixi.min.js,npm/pixi-live2d-display/dist/index.min.js,gh/Weidows-projects/Live2dLoader/dist/Live2dLoader.min.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="gear-loader"><div class="gear-loader_overlay"></div><div class="gear-loader_cogs"><div class="gear-loader_cogs__top"><div class="gear-top_part"></div><div class="gear-top_part"></div><div class="gear-top_part"></div><div class="gear-top_hole"></div></div><div class="gear-loader_cogs__left"><div class="gear-left_part"></div><div class="gear-left_part"></div><div class="gear-left_part"></div><div class="gear-left_hole"></div></div><div class="gear-loader_cogs__bottom"><div class="gear-bottom_part"></div><div class="gear-bottom_part"></div><div class="gear-bottom_part"></div><div class="gear-bottom_hole"></div></div></div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart"></i><span> 关于</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-id-card"></i><span> 关于我</span></a></li><li><a class="site-page child" href="/HTML/kobe/index.html"><i class="fa-fw fas fa-gift"></i><span> 子页面</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/default_cover/miku1.png?4653')"><nav id="nav"><span id="blog-info"><a href="/" title="Luvmand"><span class="site-name">Luvmand</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-heart"></i><span> 关于</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-id-card"></i><span> 关于我</span></a></li><li><a class="site-page child" href="/HTML/kobe/index.html"><i class="fa-fw fas fa-gift"></i><span> 子页面</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Python爬虫的简单实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-29T15:52:26.000Z" title="发表于 2024-04-29 23:52:26">2024-04-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-01T18:42:29.236Z" title="更新于 2024-05-02 02:42:29">2024-05-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Python爬虫的简单实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="基础前置"><a href="#基础前置" class="headerlink" title="基础前置"></a>基础前置</h1><p>爬虫（spider），是指向网站&#x2F;网络发起请求，获取、分析并提取有用信息的程序。</p>
+<h2 id="爬虫架构"><a href="#爬虫架构" class="headerlink" title="爬虫架构"></a>爬虫架构</h2><p>Python 爬虫架构主要由五个部分组成，分别是调度器、URL管理器、网页下载器、网页解析器、应用程序。</p>
+<ul>
+<li>调度器：调度url下载器，网页下载器，网页解析器之间的公作。</li>
+<li><strong>url管理器：</strong>url队列管理，设置爬取顺序权重，防止重复爬取和循环爬取，将需要使用的url传递给网页下载器。</li>
+<li><strong>网页下载器：</strong>自动获取网页内容，下载产出HTML文件传递给网页解析器。</li>
+<li><strong>网页解析器：</strong>从HTML中提取数据并存储，提取新的url补充至url管理器。</li>
+<li>应用程序：由提取出的有用数据组成的应用。</li>
+</ul>
+<h2 id="http协议–请求与响应"><a href="#http协议–请求与响应" class="headerlink" title="http协议–请求与响应"></a>http协议–请求与响应</h2><p>request:用户将信息通过浏览器发送给服务器。</p>
+<p>response：服务器接收并分析请求，返回数据。</p>
+<p>爬虫需要一定的http基础，请自行搜索。</p>
+<p>可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_64036070/article/details/125398467?ops_request_misc=%7B%22request_id%22:%22171440662016800184176510%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=171440662016800184176510&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-6-125398467-null-null.142%5Ev100%5Epc_search_result_base4&utm_term=python%E7%88%AC%E8%99%AB">Python爬虫详解（一看就懂）-CSDN博客</a></p>
+<h2 id="vscode环境搭建"><a href="#vscode环境搭建" class="headerlink" title="vscode环境搭建"></a>vscode环境搭建</h2><p><strong>下载扩展pip manager</strong></p>
+<p><strong>pip安装扩展: <code>requests</code>, <code>BeautifulSoup</code>,<code>selenium</code></strong></p>
+<p>在python文件中导入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> selenium</span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h1 id="网页下载器requests"><a href="#网页下载器requests" class="headerlink" title="网页下载器requests"></a>网页下载器requests</h1><h2 id="request"><a href="#request" class="headerlink" title="request"></a>request</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/request%E8%AF%B7%E6%B1%82.png" alt="request请求"></p>
+<h2 id="response"><a href="#response" class="headerlink" title="response"></a>response</h2><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/response%E5%93%8D%E5%BA%94.png" alt="response响应"></p>
+<h2 id="简单操作"><a href="#简单操作" class="headerlink" title="简单操作"></a>简单操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://luvmand.top/&#x27;</span></span><br><span class="line">r = requests.get(url)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(r.status_code) <span class="comment">#200</span></span><br><span class="line"><span class="built_in">print</span>(r.headers) <span class="comment"># 报文</span></span><br><span class="line"><span class="built_in">print</span>(r.encoding) <span class="comment"># utf-8</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h1 id="URL管理器"><a href="#URL管理器" class="headerlink" title="URL管理器"></a>URL管理器</h1><p>通过设置url管理器实现urls的管理和存储</p>
+<p>url管理器的基本代码实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">url_manager</span>:</span><br><span class="line">    <span class="comment"># 初始化</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.new_urls = <span class="built_in">set</span>() <span class="comment">#初始化待使用urls集合</span></span><br><span class="line">        self.old_urls = <span class="built_in">set</span>() <span class="comment">#初始化已使用urls集合</span></span><br><span class="line">        </span><br><span class="line">    <span class="comment"># 添加url</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add_new_url</span>(<span class="params">self, urls</span>):</span><br><span class="line">        <span class="comment"># 判断urls是否为空</span></span><br><span class="line">        <span class="keyword">if</span> urls <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> <span class="built_in">len</span>(urls) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#循环添加所有url</span></span><br><span class="line">        <span class="keyword">for</span> url <span class="keyword">in</span> urls:</span><br><span class="line">            <span class="comment"># 判断是否已存在</span></span><br><span class="line">            <span class="keyword">if</span> url <span class="keyword">in</span> self.new_urls <span class="keyword">or</span> url <span class="keyword">in</span> self.old_urls:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            self.new_urls.add(url)</span><br><span class="line">            </span><br><span class="line">    <span class="comment"># 获得url</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_url</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> self.if_has_new_url():</span><br><span class="line">            <span class="comment"># pop移除集合中的元素</span></span><br><span class="line">            url = self.new_urls.pop()</span><br><span class="line">            self.old_urls.add(url)</span><br><span class="line">        <span class="keyword">return</span> url</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 判断未使用url是否为空</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">if_has_new_url</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.new_urls) &gt; <span class="number">0</span></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<hr>
+<hr>
+<h1 id="网页解析器Beautiful-Soup"><a href="#网页解析器Beautiful-Soup" class="headerlink" title="网页解析器Beautiful Soup"></a>网页解析器Beautiful Soup</h1><p>通过第三方库<code>beautiful soup</code>从html中提取数据</p>
+<p>beautiful soup讲解：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/424e037c5dd8">Python爬虫：史上最详细的BeautifulSoup教程 - 简书 (jianshu.com)</a></p>
+<p>示例代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;https://luvmand.top/&#x27;</span></span><br><span class="line">r = requests.get(url)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过text操作获取网页的html文件</span></span><br><span class="line">text = r.text</span><br><span class="line"><span class="comment"># beautiful soup读取html文件</span></span><br><span class="line">soup = BeautifulSoup(text,<span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line"><span class="comment"># 查找内容</span></span><br><span class="line">content = soup.find_all(<span class="string">&#x27;div&#x27;</span>,class_=<span class="string">&#x27;content&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> content:</span><br><span class="line">    <span class="keyword">if</span> t.string <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="built_in">print</span>(t.string,<span class="string">&#x27;\n&#x27;</span>,<span class="string">&#x27;/&#x27;</span>*<span class="number">30</span>,<span class="string">&#x27;\n&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>可将本人博客首页的内容打印出。</p>
+<hr>
+<hr>
+<h1 id="内容查找：正则表达式与xpath"><a href="#内容查找：正则表达式与xpath" class="headerlink" title="内容查找：正则表达式与xpath"></a>内容查找：正则表达式与xpath</h1><h2 id="正则表达式匹配内容"><a href="#正则表达式匹配内容" class="headerlink" title="正则表达式匹配内容"></a>正则表达式匹配内容</h2><p>正则表达式入门:<a target="_blank" rel="noopener" href="https://www.runoob.com/regexp/regexp-syntax.html">正则表达式 – 语法 | 菜鸟教程 (runoob.com)</a></p>
+<p>通过正则表达式可以更方便地匹配内容</p>
+<p>python通过<code>import re</code>来使用正则表达式.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">urls = soup.find_all(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="comment">#一个与博客地址格式相同的正则表达式</span></span><br><span class="line">pattern = <span class="string">r&#x27;^/\d+/\d+/\d+/[\s\S]+$&#x27;</span></span><br><span class="line"><span class="keyword">for</span> url <span class="keyword">in</span> urls:</span><br><span class="line">    <span class="comment"># 匹配与正则表达式相同的超链接</span></span><br><span class="line">    web = re.<span class="keyword">match</span>(pattern,url[<span class="string">&#x27;href&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> web <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">and</span> url.string <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="built_in">print</span>(url.string,<span class="string">&#x27;https://luvmand.top&#x27;</span>+web.group())</span><br></pre></td></tr></table></figure>
+
+<h2 id="xpath"><a href="#xpath" class="headerlink" title="xpath"></a>xpath</h2><p>xpath可以更加便捷地提取源码中的信息。</p>
+<p>xpath教学：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_58667126/article/details/126105955?ops_request_misc=%7B%22request_id%22:%22171456637616800178596863%22,%22scm%22:%2220140713.130102334..%22%7D&request_id=171456637616800178596863&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-2-126105955-null-null.142%5Ev100%5Epc_search_result_base4&utm_term=xpath%E7%88%AC%E8%99%AB&spm=1018.2226.3001.4187">Python爬虫实战之xpath解析_python xpath-CSDN博客</a></p>
+<hr>
+<hr>
+<h1 id="网页自动化Selenium"><a href="#网页自动化Selenium" class="headerlink" title="网页自动化Selenium"></a>网页自动化Selenium</h1><p>很多网站重要数据采用动态加载，单凭Beautiful Soup无法得到数据。通过selenium可直接模拟浏览器对象，便于查找<strong>动态元素</strong>。</p>
+<p>首先需要配置虚拟浏览器环境</p>
+<p>查阅selenium教学：<a target="_blank" rel="noopener" href="https://blog.csdn.net/kobepaul123/article/details/128796839">selenium入门超详细教程——网页自动化操作-CSDN博客</a></p>
+<p>通过selenium的元素查找主要依赖<code>webdriver.find_element()</code>:</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/webdriver%E6%9F%A5%E6%89%BE.png" alt="webdriver查找"></p>
+<p>简单示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="comment"># 若出现NameError: name &#x27;By&#x27; is not defined，请在头部添加引入:</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开浏览器，此处使用Chrome</span></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line"><span class="comment"># 访问我的博客</span></span><br><span class="line">browser.get(<span class="string">r&#x27;https://luvmand.top/&#x27;</span>)</span><br><span class="line"><span class="comment"># 查找打印首页博客内容</span></span><br><span class="line">elements = browser.find_elements(By.CLASS_NAME,<span class="string">&#x27;content&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> element <span class="keyword">in</span> elements:</span><br><span class="line">    <span class="built_in">print</span>(element.text,<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">browser.close()</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>get_attribute()</code>可以得到元素的信息，如<code>abc_url = browser.find_element(By.ID,&#39;abc&#39;).get_attribute(&#39;src&#39;)</code></p>
+<hr>
+<hr>
+<h1 id="实例：爬取动漫网站视频"><a href="#实例：爬取动漫网站视频" class="headerlink" title="实例：爬取动漫网站视频"></a>实例：爬取动漫网站视频</h1><p>在此例中，<a target="_blank" rel="noopener" href="https://www.iyhdmw.com/">动漫网站</a>的视频链接为动态元素，且依赖DPlayer加载ts视频，不能直接通过m3u8链接进行下载，需要通过第一个m3u8链接得到第二个链接。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/DPlayer.png" alt="DPlayer"></p>
+<p>选中视频元素，得到以下代码：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/%E5%8A%A8%E6%BC%AB%E7%BD%91%E7%AB%99%E7%9B%AE%E6%A0%87.png" alt="动漫网站目标"></p>
+<p>代码中的<code>src</code>可以通过浏览器直接访问得到可观看的视频，但无法进行下载；</p>
+<p>裁剪<code>&amp;url=</code>后的代码可以得到ffmpy3下载链接。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="comment"># parse可用于转义url中的百分号，如：https%3A%2F%2Fvip.ffzy-play6.com%2F20221213%2F18032_4edec70b%2Findex.m3u8</span></span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span><br><span class="line"><span class="comment"># 前面提到的URL Manager</span></span><br><span class="line"><span class="keyword">import</span> manager</span><br><span class="line"><span class="comment"># ffmpy3可用于ts视频的下载与格式转换</span></span><br><span class="line"><span class="keyword">import</span> ffmpy3 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 网站根地址</span></span><br><span class="line">root_url = <span class="string">&#x27;https://iyhdmw.com/&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入需要下载的动漫主页面</span></span><br><span class="line">list_number = <span class="built_in">input</span>(<span class="string">&#x27;输入番剧在网址上的代码(例如https://www.iyhdmw.com/showp/12089.html 为12089)\n&#x27;</span>)</span><br><span class="line">video_list_menu_url = root_url+<span class="string">&#x27;showp/&#x27;</span>+list_number+<span class="string">&#x27;.html&#x27;</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(list_number) == <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;未输入代码，程序结束&#x27;</span>) </span><br><span class="line">    quit()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;爬取番剧地址为&#x27;</span>+video_list_menu_url)</span><br><span class="line"></span><br><span class="line"><span class="comment">#访问动漫主页面</span></span><br><span class="line">response = requests.get(video_list_menu_url)</span><br><span class="line"><span class="keyword">if</span> response.status_code != <span class="number">200</span>:</span><br><span class="line">    <span class="keyword">raise</span> <span class="built_in">print</span>(<span class="string">&#x27;动漫主页面访问失败&#x27;</span>)</span><br><span class="line">    quit()</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;访问成功&#x27;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment">#beauifulSoup爬取各集网址</span></span><br><span class="line">index_html = response.text</span><br><span class="line">soup = BeautifulSoup(index_html,<span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line"><span class="comment"># 打印标题</span></span><br><span class="line"><span class="built_in">print</span>(soup.title.text)</span><br><span class="line"><span class="comment"># 统计集数</span></span><br><span class="line">player_choose = soup.findAll(<span class="string">&#x27;div&#x27;</span>,class_=<span class="string">&#x27;movurl&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">episode_list = player_choose.findAll(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line"><span class="comment"># print(episode_list)</span></span><br><span class="line">episode_number = <span class="built_in">len</span>(episode_list)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;共<span class="subst">&#123;episode_number&#125;</span>集&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将每集地址存入url管理器</span></span><br><span class="line">manager = manager.url_manager()</span><br><span class="line"><span class="keyword">for</span> episode <span class="keyword">in</span> episode_list:</span><br><span class="line">    episode_url = episode.find(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">    <span class="comment">#提取超链接并拼接</span></span><br><span class="line">    manager.add_new_url(&#123;root_url+episode_url.get(<span class="string">&#x27;href&#x27;</span>)&#125;)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 存档视频超链接（提取出超链接即成功）   </span></span><br><span class="line">list_urls = <span class="built_in">open</span>(<span class="string">f&#x27;./file/sakura/list_urls_<span class="subst">&#123;soup.title.text&#125;</span>.txt&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="comment"># 对每集进行爬取</span></span><br><span class="line"><span class="keyword">while</span> (manager.if_has_new_url()):</span><br><span class="line">    url = manager.get_url()</span><br><span class="line">    <span class="comment"># 通过selenium爬取动态数据iframe内容</span></span><br><span class="line">    <span class="comment"># 使用webdriver模拟爬取</span></span><br><span class="line">    browser = webdriver.Chrome()</span><br><span class="line">    <span class="comment"># 以下代码可以防止被识别为爬虫</span></span><br><span class="line">    browser.execute_cdp_cmd(<span class="string">&quot;Page.addScriptToEvaluateOnNewDocument&quot;</span>, &#123;</span><br><span class="line">        <span class="string">&quot;source&quot;</span>: <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Object.defineProperty(navigator, &#x27;webdriver&#x27;, &#123;</span></span><br><span class="line"><span class="string">        get: () =&gt; undefined</span></span><br><span class="line"><span class="string">        &#125;)</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment"># 加载网页    </span></span><br><span class="line">    browser.get(url)</span><br><span class="line">    <span class="comment"># 保证加载时间，此处为隐式加载，时间最大不超过10s</span></span><br><span class="line">    browser.implicitly_wait(<span class="number">10</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># if browser.current_url == url:</span></span><br><span class="line">    <span class="comment"># 查找视频源地址</span></span><br><span class="line">    video_browser_url = browser.find_element(By.ID,<span class="string">&#x27;yh_playfram&#x27;</span>).get_attribute(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">    list_urls.write(<span class="string">f&#x27;<span class="subst">&#123;browser.title&#125;</span>: 浏览器观看: &#x27;</span>+video_browser_url)</span><br><span class="line">    <span class="comment"># 切割url</span></span><br><span class="line">    video_url_cutted = re.split(<span class="string">r&#x27;&amp;url=&#x27;</span>,video_browser_url)</span><br><span class="line">    <span class="comment"># 转义url中的百分号</span></span><br><span class="line">    video_currect = parse.unquote(video_url_cutted[<span class="number">1</span>])</span><br><span class="line">    <span class="built_in">print</span>(video_currect)</span><br><span class="line">    <span class="comment"># 存档下载视频超链接（提取出超链接即成功）    </span></span><br><span class="line">    list_urls.write(<span class="string">&#x27;   ffmpeg下载连接: &#x27;</span>+video_currect+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    <span class="comment"># # 下载视频</span></span><br><span class="line">    <span class="comment"># ff = ffmpy3.FFmpeg(inputs=&#123;video_currect:None&#125;,outputs=&#123;f&#x27;./file/sakura/&#123;soup.title.text&#125;/&#123;browser.title.text&#125;.mp4&#x27;:None&#125;).run()</span></span><br><span class="line"></span><br><span class="line">list_urls.close()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>程序执行完成后，可成功得到含m3u8链接的txt文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/%E5%8A%A8%E6%BC%AB%E7%BD%91%E7%AB%99%E6%88%90%E5%8A%9F%E7%A4%BA%E4%BE%8B.png" alt="动漫网站成功示例"></p>
+<p>防止被识别为爬虫代码参考自:<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013595395/article/details/108714775">selenium webdriver 开启网页失败，被发现为爬虫，的解决办法_driver.execute_cdp_cmd(“page.addscripttoevaluateon-CSDN博客</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://arigreat.github.io">Ari</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://arigreat.github.io/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/">https://arigreat.github.io/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://arigreat.github.io" target="_blank">Luvmand</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a></div><div class="post_share"><div class="social-share" data-image="/img/default_cover/miku1.png?4653" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/04/20/music_soundMakeYouCry/" title="Now and then you miss it, sounds make you cry"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/default_cover/miku2.jpg?1805" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Now and then you miss it, sounds make you cry</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div><div class="comment-switch"><span class="first-comment">Valine</span><span id="switch-btn"></span><span class="second-comment">Gitalk</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ari</div><div class="author-info__description">Love is all you need</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/arigreat"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/arigreat" target="_blank" title="Github"><i class="fab fa-github" style="color: #hdhfbb;"></i></a><a class="social-icon" href="mailto:ariiii666@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #000000;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%89%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">基础前置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%AC%E8%99%AB%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">爬虫架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http%E5%8D%8F%E8%AE%AE%E2%80%93%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94"><span class="toc-number">1.2.</span> <span class="toc-text">http协议–请求与响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vscode%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.3.</span> <span class="toc-text">vscode环境搭建</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E4%B8%8B%E8%BD%BD%E5%99%A8requests"><span class="toc-number">2.</span> <span class="toc-text">网页下载器requests</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#request"><span class="toc-number">2.1.</span> <span class="toc-text">request</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#response"><span class="toc-number">2.2.</span> <span class="toc-text">response</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%93%8D%E4%BD%9C"><span class="toc-number">2.3.</span> <span class="toc-text">简单操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#URL%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">URL管理器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E8%A7%A3%E6%9E%90%E5%99%A8Beautiful-Soup"><span class="toc-number">4.</span> <span class="toc-text">网页解析器Beautiful Soup</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E6%9F%A5%E6%89%BE%EF%BC%9A%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8Expath"><span class="toc-number">5.</span> <span class="toc-text">内容查找：正则表达式与xpath</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%8C%B9%E9%85%8D%E5%86%85%E5%AE%B9"><span class="toc-number">5.1.</span> <span class="toc-text">正则表达式匹配内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xpath"><span class="toc-number">5.2.</span> <span class="toc-text">xpath</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E9%A1%B5%E8%87%AA%E5%8A%A8%E5%8C%96Selenium"><span class="toc-number">6.</span> <span class="toc-text">网页自动化Selenium</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%EF%BC%9A%E7%88%AC%E5%8F%96%E5%8A%A8%E6%BC%AB%E7%BD%91%E7%AB%99%E8%A7%86%E9%A2%91"><span class="toc-number">7.</span> <span class="toc-text">实例：爬取动漫网站视频</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/" title="Python爬虫的简单实现"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/default_cover/miku1.png?4653" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python爬虫的简单实现"/></a><div class="content"><a class="title" href="/2024/04/29/Python%E7%88%AC%E8%99%AB%E5%85%A5%E9%97%A8%E5%AE%9E%E7%8E%B0/" title="Python爬虫的简单实现">Python爬虫的简单实现</a><time datetime="2024-04-29T15:52:26.000Z" title="发表于 2024-04-29 23:52:26">2024-04-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/20/music_soundMakeYouCry/" title="Now and then you miss it, sounds make you cry"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/default_cover/miku2.jpg?1805" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Now and then you miss it, sounds make you cry"/></a><div class="content"><a class="title" href="/2024/04/20/music_soundMakeYouCry/" title="Now and then you miss it, sounds make you cry">Now and then you miss it, sounds make you cry</a><time datetime="2024-04-20T08:06:34.000Z" title="发表于 2024-04-20 16:06:34">2024-04-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/16/AJAX%E6%95%99%E7%A8%8B/" title="AJAX笔记"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/default_cover/sakura2.jpg?6051" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AJAX笔记"/></a><div class="content"><a class="title" href="/2024/04/16/AJAX%E6%95%99%E7%A8%8B/" title="AJAX笔记">AJAX笔记</a><time datetime="2024-04-16T14:23:00.000Z" title="发表于 2024-04-16 22:23:00">2024-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/11/C++STL%E5%AE%B9%E5%99%A8/" title="C++ STL容器"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/default_cover/miku2.jpg?8123" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="C++ STL容器"/></a><div class="content"><a class="title" href="/2024/04/11/C++STL%E5%AE%B9%E5%99%A8/" title="C++ STL容器">C++ STL容器</a><time datetime="2024-04-11T05:34:51.000Z" title="发表于 2024-04-11 13:34:51">2024-04-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/11/music_morale/" title="Mr.Morale的十八次心理咨询"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/mrMorale.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mr.Morale的十八次心理咨询"/></a><div class="content"><a class="title" href="/2024/04/11/music_morale/" title="Mr.Morale的十八次心理咨询">Mr.Morale的十八次心理咨询</a><time datetime="2024-04-10T16:07:34.000Z" title="发表于 2024-04-11 00:07:34">2024-04-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Ari</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const initValine = () => {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'sFhjXzh7S7dqr5ehMabX0lSo-MdYXbMMI',
+      appKey: 'snRODvctjs9f9y2w6tqjBQrE',
+      avatar: 'monsterid',
+      serverURLs: 'https://cloud.luvmand.top',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  const loadValine = async () => {
+    if (typeof Valine === 'function') initValine()
+    else {
+      await getScript('https://cdn.jsdelivr.net/npm/valine@1.5.1/dist/Valine.min.js')
+      initValine()
+    }
+  }
+
+  if ('Valine' === 'Valine' || !false) {
+    if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+    else setTimeout(loadValine, 0)
+  } else {
+    window.loadOtherComment = loadValine
+  }
+})()</script><script>(() => {
+  const initGitalk = () => {
+    const gitalk = new Gitalk(Object.assign({
+      clientID: '827efcb6581b2e5e8b95',
+      clientSecret: '2015daabee730144197fa7928b8de62380eb51e7',
+      repo: 'arigreat.github.io',
+      owner: 'arigreat',
+      admin: ['arigreat'],
+      id: '9fcada575ac892d2475ded7451b45919',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  const loadGitalk = async() => {
+    if (typeof Gitalk === 'function') initGitalk()
+    else {
+      await getCSS('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css')
+      await getScript('https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js')
+      initGitalk()
+    }
+  }
+  
+  const commentCount = n => {
+    const isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+    if (isCommentCount) {
+      isCommentCount.textContent= n
+    }
+  }
+
+  if ('Valine' === 'Gitalk' || !false) {
+    if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+    else loadGitalk()
+  } else {
+    window.loadOtherComment = loadGitalk
+  }
+})()</script></div><script src="/js/sakura.js"></script><script>addEventListener("DOMContentLoaded",function(){let models_1=[{scale:0.07,width:500,height:400,left:'-4vw',bottom:'0vh',role:"https://cdn.jsdelivr.net/gh/alg-wiki/AzurLaneL2DViewer@gh-pages/assets/lafei_4/lafei_4.model3.json",background:"",opacity:1,mobile:false,draggable:false,},];new Live2dLoader(models_1)})</script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-fluttering-ribbon.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
