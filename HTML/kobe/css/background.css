@@ -1,0 +1,135 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: purple;
+    margin: 0;
+}
+
+.background{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(255, 237, 80, 0.808);
+    border-radius: 10px;
+}
+/* 背景24 */
+.number24{
+    position: fixed;
+    font-size: 360px;
+    color: white;
+    z-index: -1;
+}
+/* 直升机 */
+.plane{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    animation: planeMove 10s forwards;
+}
+#explode{
+    right: 50px;
+    top: 500px;
+    opacity: 0;
+    animation: explode 16s step-end;
+}
+
+/* part1 */
+.part1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.title{
+    font-size: 60px;
+    text-shadow: 0 0 10px white;
+    animation: titleColor 2s infinite alternate;
+}
+.kobe_pic{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#kobe_img{
+    margin: 300px 0 10px 20;
+    animation: imgShadow 1s infinite alternate;
+}
+
+/* dz */
+.dz{
+    color: rgb(209, 209, 255);
+    width: 75px;
+    height: 100px;
+    position: fixed;
+    right: 100px;
+    top: 300px;
+    transition: opacity 90ms ease-in-out;
+}
+.dz:hover{
+    color: #e91e1e;
+    opacity: 0;
+}
+/* 坠机动画 */
+@keyframes planeMove {
+    0%{
+        right: 0%;
+        top: 10%;
+    }
+    40%{
+        right: 30%;
+        top: 10%;
+    }
+    80%{
+        right: 50%;
+        top: 20%;
+    }
+    100%{
+        right: 70%;
+        top: 84%;
+    }
+}
+@keyframes explode {
+    0%,60%{
+        opacity: 0;
+    }
+    61%,100%{
+        opacity: 1;
+    }
+}
+
+@keyframes titleColor {
+    0%{
+        color: red;
+    }
+    10%{
+        color: yellow;
+    }
+    30%{
+        color:green;
+    }
+    60%{
+        color: blue;
+    }
+    80%{
+        color:blueviolet
+    }
+    100%{
+        color: black;
+    }
+}
+@keyframes imgShadow {
+    0%{
+        box-shadow: 0 0 4px white,
+        0 0 8px white,
+        0 0 10px white;
+    }
+    100%{
+        box-shadow: 0 0 31px white,
+        0 0 44px white,
+        0 0 55px white;
+    }
+}
